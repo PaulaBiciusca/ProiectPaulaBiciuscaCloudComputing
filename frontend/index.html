@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista carti</title>
+    </head>
+    <body>
+        <h1>Carti</h1>
+        <div id="table"></div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script 
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                showMessages();
+            });
+            function showMessages() {
+                axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
+                    console.log(results.data.results);
+                    let html = ` <table style="width:500px;">
+                            <tr>
+                                <th>Titlu</th>
+                                <th>Autor</th>
+                                <th>Descriere</th>
+                            </tr>`;
+            
+                    results.data.results.forEach(function(element) {
+                        html += `<tr>
+                                    <td><a href="${element.amazon_product_url}">${element.book_details[0].title}</a></td>
+                                    <td>${element.book_details[0].author}</td>
+                                    <td>${element.book_details[0].description}</td>
+                                </tr>`;
+                    });
+            
+                    html += `</table>`;
+            
+                    $('#table').html(html);
+                }).catch(function(error) {
+                    console.log(error)
+                })
+            }
+        </script>
+    </body>
+</html>

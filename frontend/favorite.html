@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista favorite</title>
+    </head>
+    <body>
+        <h1>Carti favorite</h1>
+        <div id="table"></div>
+        
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script 
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                window.alert('Hello from JQuery')
+                function showMessages() {
+                    axios.get('https://api.nytimes.com/svc/books/v3/lists.json').then(function(results) {
+                        let html = ` <table style="width:500px;">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Subject</th>
+                                    <th>Name</th> 
+                                    <th>Message</th>
+                                    <th>Actions</th>
+                                </tr>`
+                
+                        results.data.forEach(function(element) {
+                            html += `<tr>
+                                        <td>${element.id}</td>
+                                        <td>${element.name}</td>
+                                        <td>${element.subject}</td>
+                                        <td>${element.message}</td>
+                                        <td>
+                                            <button onClick="editMessage(${element.id})">Edit</button>
+                                            <button onClick="deleteMessage(${element.id})">Delete</button>
+                                        </td>
+                                    </tr>`
+                        })
+                
+                        html += `</table>`
+                
+                        $('#table').html(html)
+                    }).catch(function(error) {
+                        console.log(error)
+                    })
+                }
+            })
+        </script>
+    </body>
+</html>
