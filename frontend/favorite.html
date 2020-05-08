@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Lista favorite</title>
+        <a href="/index.html">Pagina principala</a>
     </head>
     <body>
         <h1>Carti favorite</h1>
@@ -14,39 +15,40 @@
             crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                window.alert('Hello from JQuery')
-                function showMessages() {
-                    axios.get('https://api.nytimes.com/svc/books/v3/lists.json').then(function(results) {
-                        let html = ` <table style="width:500px;">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Subject</th>
-                                    <th>Name</th> 
-                                    <th>Message</th>
-                                    <th>Actions</th>
-                                </tr>`
-                
-                        results.data.forEach(function(element) {
-                            html += `<tr>
-                                        <td>${element.id}</td>
-                                        <td>${element.name}</td>
-                                        <td>${element.subject}</td>
-                                        <td>${element.message}</td>
-                                        <td>
-                                            <button onClick="editMessage(${element.id})">Edit</button>
-                                            <button onClick="deleteMessage(${element.id})">Delete</button>
-                                        </td>
-                                    </tr>`
-                        })
-                
-                        html += `</table>`
-                
-                        $('#table').html(html)
-                    }).catch(function(error) {
-                        console.log(error)
-                    })
-                }
-            })
+                // window.alert('Hello from JQuery');
+                afiseazaFavorite();
+            });
+            function afiseazaFavorite() {
+                axios.get('/favorite').then(function(results) {
+                    let html = ` <table style="width:500px;">
+                            <tr>
+                                <th>Titlu</th>
+                                <th>Autor</th>
+                            </tr>`;
+            
+                    results.data.forEach(function(element) {
+                        html += `<tr>
+                                    <td>${element.titlu}</td>
+                                    <td>${element.autor}</td>
+                                    <td><button onClick="stergeFavorite(\'${element.titlu}\', \'${element.autor}\')">Sterge</button></td>
+                                </tr>`;
+                    });
+            
+                    html += `</table>`;
+            
+                    $('#table').html(html);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
+            
+            function stergeFavorite(titlu){
+                axios.delete('/favorite/' + titlu).then(function(result) {
+                    afiseazaFavorite();
+                }).catch(function(err) {
+                    alert(err);
+                });
+            }
         </script>
     </body>
 </html>

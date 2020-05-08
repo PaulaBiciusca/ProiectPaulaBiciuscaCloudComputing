@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Lista carti</title>
+        <a href="/favorite.html">Favorite</a>
     </head>
     <body>
         <h1>Carti</h1>
@@ -14,11 +15,11 @@
             crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                showMessages();
+                afiseazaCarti();
             });
-            function showMessages() {
+            function afiseazaCarti() {
                 axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
-                    console.log(results.data.results);
+                    //console.log(results.data.results);
                     let html = ` <table style="width:500px;">
                             <tr>
                                 <th>Titlu</th>
@@ -31,6 +32,7 @@
                                     <td><a href="${element.amazon_product_url}">${element.book_details[0].title}</a></td>
                                     <td>${element.book_details[0].author}</td>
                                     <td>${element.book_details[0].description}</td>
+                                    <td><button onClick="adaugaFavorite(\'${element.book_details[0].title}\', \'${element.book_details[0].author}\')">Adauga la favorite</button></td>
                                 </tr>`;
                     });
             
@@ -38,8 +40,18 @@
             
                     $('#table').html(html);
                 }).catch(function(error) {
-                    console.log(error)
-                })
+                    console.log(error);
+                });
+            }
+            function adaugaFavorite(titlu, autor){
+                axios.post('/favorite', {
+                    titlu: titlu,
+                    autor: autor
+                }).catch(function(error) {
+                    if(error.response.status == 409){
+                        window.alert('Cartea ' + titlu + ' este deja adaugata la in lista de favorite');
+                    }
+                });
             }
         </script>
     </body>
