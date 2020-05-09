@@ -18,7 +18,8 @@ sequelize.authenticate().then(() => {
 
 const Favorite = sequelize.define('favorite', {
     titlu: Sequelize.STRING,
-    autor: Sequelize.STRING
+    autor: Sequelize.STRING,
+    url: Sequelize.STRING
 });
 
 app.get('/createdb', (request, response) => {
@@ -43,7 +44,7 @@ app.post('/favorite', (request, response) => {
             Favorite.create(request.body).then((result) => {
                 response.status(201).json(result);
             }).catch(() => {
-                response.status(500).send("Post esuat");
+                response.status(500).send();
             });
         }
         else{
@@ -70,13 +71,13 @@ app.delete('/favorite/:titlu', (request, response) => {
                 response.status(204).send();
             }).catch((err) => {
                 console.log(err);
-                response.status(500).send('database error');
+                response.status(500).send();
             });
         } else {
-            response.status(404).send('resource not found');
+            response.status(404).send();
         }
         }).catch((err) => {
             console.log(err);
-            response.status(500).send('database error');
+            response.status(500).send();
         });
 });

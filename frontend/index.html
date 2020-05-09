@@ -6,6 +6,15 @@
     </head>
     <body>
         <h1>Carti</h1>
+        <div>
+            <form>
+                <p>
+                    <label>Categorie</label>
+                    <select id = "categorie">
+                    </select>
+                </p>
+            </form>
+        </div>
         <div id="table"></div>
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -15,12 +24,32 @@
             crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                afiseazaCarti();
+                afiseazaCategorii();
             });
-            function afiseazaCarti() {
-                axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
+            function afiseazaCategorii(){
+                axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
                     //console.log(results.data.results);
-                    let html = ` <table style="width:500px;">
+                    let html = '';
+            
+                    results.data.results.forEach(function(element) {
+                        html += `<option value="${element.list_name_encoded}">${element.display_name}</option>`;
+                    });
+            
+                    $('#categorie').html(html);
+                    afiseazaCarti(results.data.results[0].list_name_encoded);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            }
+            
+            $("#categorie").change(function(){
+                afiseazaCarti($(this).val());
+            });
+            
+            function afiseazaCarti(categorie) {
+                axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=' + categorie + '&api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
+                    //console.log(results.data.results);
+                    let html = ` <table>
                             <tr>
                                 <th>Titlu</th>
                                 <th>Autor</th>
@@ -32,7 +61,7 @@
                                     <td><a href="${element.amazon_product_url}">${element.book_details[0].title}</a></td>
                                     <td>${element.book_details[0].author}</td>
                                     <td>${element.book_details[0].description}</td>
-                                    <td><button onClick="adaugaFavorite(\'${element.book_details[0].title}\', \'${element.book_details[0].author}\')">Adauga la favorite</button></td>
+                                    <td><button onClick="adaugaFavorite(\'${element.book_details[0].title}\', \'${element.book_details[0].author}\', \'${element.amazon_product_url}\')">Adauga la favorite</button></td>
                                 </tr>`;
                     });
             
@@ -43,10 +72,11 @@
                     console.log(error);
                 });
             }
-            function adaugaFavorite(titlu, autor){
+            function adaugaFavorite(titlu, autor, url){
                 axios.post('/favorite', {
                     titlu: titlu,
-                    autor: autor
+                    autor: autor,
+                    url: url
                 }).catch(function(error) {
                     if(error.response.status == 409){
                         window.alert('Cartea ' + titlu + ' este deja adaugata la in lista de favorite');

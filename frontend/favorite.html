@@ -15,7 +15,6 @@
             crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                // window.alert('Hello from JQuery');
                 afiseazaFavorite();
             });
             function afiseazaFavorite() {
@@ -28,7 +27,7 @@
             
                     results.data.forEach(function(element) {
                         html += `<tr>
-                                    <td>${element.titlu}</td>
+                                    <td><a href="${element.url}">${element.titlu}</a></td>
                                     <td>${element.autor}</td>
                                     <td><button onClick="stergeFavorite(\'${element.titlu}\', \'${element.autor}\')">Sterge</button></td>
                                 </tr>`;
