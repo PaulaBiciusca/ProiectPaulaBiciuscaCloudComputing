@@ -1,14 +1,30 @@
-         ___        ______     ____ _                 _  ___  
-        / \ \      / / ___|   / ___| | ___  _   _  __| |/ _ \ 
-       / _ \ \ /\ / /\___ \  | |   | |/ _ \| | | |/ _` | (_) |
-      / ___ \ V  V /  ___) | | |___| | (_) | |_| | (_| |\__, |
-     /_/   \_\_/\_/  |____/   \____|_|\___/ \__,_|\__,_|  /_/ 
- ----------------------------------------------------------------- 
+intrebari
+
+ - ce sa scrie la introducere/descrierea problemei
+ - daca este ok faptul ca ai facut o pagina web care acceseaza doua endpoint-uri de pe un api extern (books API)
+si de pe api-ul creat de tine pentru a accesa baza de date de mysql
+
+#Proiect cloud computing
+Paula Biciusca
+
+##Introducere
 
 
-Hi there! Welcome to AWS Cloud9!
 
-To get started, create some files, play with the terminal,
-or visit https://docs.aws.amazon.com/console/cloud9/ for our documentation.
+##Descreierea problemei
 
-Happy coding!
+
+
+#Descriere API
+
+
+
+#Flux de date
+
+
+
+#Capturi ecran aplicație
+
+
+
+#Referinte
