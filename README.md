@@ -1,20 +1,14 @@
-ce sa vorbesc cu proful?
-
- - ce sa scrie la introducere/descrierea problemei
- - daca este ok faptul ca ai facut o pagina web care acceseaza doua endpoint-uri de pe un api extern (books API)
-si de pe api-ul creat de tine pentru a accesa baza de date de mysql
-
 # Proiect cloud computing
 ## Aplicatie web pentru gestionat carti favorite
 Paula Biciusca
 
 ## Introducere
 
-
+Aplicatia a fost gandita pentru a ajuta iubitorii de carti sa isi gestioneze si salveze titlurile cartilor favorite din New York Times Book Review, fiind una dintre cele mai influente și mai citite publicații de recenzii de carte. Astfel cu ajutorul lui BooksAPI si propriului API am putut adauga si sterge intr-o lista proprie cele mai bune carti in functie de categorie, usurand accesul cititorilor la informatii precum titlul, autorul si recenziile cartilor preferate.
 
 ## Descreierea problemei
 
-
+Problema pe care doresc sa o adresez prin urmatoarea aplicatie web este dificultatea cu care pot regasi o carte pe care am descoperit-o pe pagina celor de la New York Times book review, atat prin faptul ca listele au dimensiuni mari, cat si prin faptul ca lista este actualizata saptamanal, ceea ce poate elimina o carte pe care as fi dorit sa o citesc de pe primele pagini, si ingreunand astfel gasirea ei, mai ales daca am uitat anumite detalii despre ea.
 
 ## Descriere API
 API-urile utilizate de aceasta aplicatie web sunt BooksAPI si propriul API creat pentru a gestiona baza de date.
@@ -123,13 +117,77 @@ Ultimul end point creat are calea "<adresa_api>/favorite/<titlu>" cu metoda DELE
 ## Capturi ecran aplicație
 
 ### Front-end
+In acest sub-capitol voi prezenta fragmentele de cod ce se regasesc in cele doua fisiere HTML din folder-ul frontend: index si favorite.
 
+Ambele fisiere importa scriptul axios pentru a putea face request-uri la API-uri, si Jquery pentru a profita de sintaxa mult mai usoara in comparatie cu Javascript.
+De asemenea am folosit functia "ready" pentru a rula metoda "afiseazaCategorie" dupa ce se incarca documentul in browser.
 
-### Back-end
-Urmatoarea portiune va prezenta fragmentele de cod relevante back-end-ului
-Acesta este functia care se ocupa de procesarea request-ului de pe metoda GET a API-ului creat de mine. Serverul va
+![Importare librarii si .ready](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Importare%20librarii%20si%20.ready%20.JPG)
+
+Fig. 1
+
+Functia afiseaza categorie apeleaza endpoint-ul de pe BooksAPI pentru a obtine lista cu categorii oferita de baza de date a celor de la NYT. Pe baza numelui de afisare si a codului url vom popula selectul cu optiuni.
+
+![Afiseaza categorie](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Afiseaza%20categorie.JPG)
+
+Fig. 2
+
+Cand functia din figura 3 este apelata, aceasta va face apel la endpoint-ul de pe BooksAPI pentru a obtine lista de carti din categoria trimisa ca parametru, ea returnand un JSON ce reprezinta o lista cu date despre carti. Pe baza url-ului, titlului, autorului si descrierii vom popula tabela noastra cu randuri, la finalul carora vom genera un buton ce va apela metoda "adaugaFavorite(titlu, autor, url)
+
+![Afiseaza carti](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Afiseaza%20carti.JPG)
+
+Fig. 3
+
+Functia urmatoare apeleaza cu metoda POST endpoint-ul "/favorite" al API-ului creat de noi, daca primiste status code 409(Conflict) acesta va afisa o alerta care atentioneaza utilizatorul ca respectiva carte a fost deja adaugata in lista de favorite.
+
+![Adauga favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Adauga%20favorite.JPG)
+
+Fig. 4
+
+Functia din figura 5 apeleaza cu metoda GET endpoint-ul "/favorite" in urma caruia va popula tabela de pe pagina cu datele preluate din API.
+
+![Afiseaza favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Afiseaza%20favorite.JPG)
+
+Fig. 5
+
+Urmatoare functie apeleaza cu metoda DELETE endpoint-ul "/favorite", dupa care apeleaza functia "afiseazaFavorite".
+
+![Sterge favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Sterge%20favorite.JPG)
+
+Fig. 6
+
+### API
+Urmatoarea portiune va prezenta fragmentele de cod relevante API-ului.
+
+Portiunea de cod din figura 7 reprezinta instantierea obiectului Sequelize, ce va permite accesarea bazei de date mySQL, in urma connectarii cu contul creat anterior si bash.
+
+![Instantiere obiect sequelize](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Instantiere%20obiect%20sequelize.JPG)
+
+Fig. 7
+
+Figura 8 arata modul cum am definit un model, ceea ce reprezinta o tabela in baza de date. Tabela contine trei campuri: titlu, autor si url.
+
+![Definire tabela favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/definire%20tabela%20favorite.JPG)
+
+Fig. 8
+
+Urmatoare imagine reprezinta endpoint-ul care se ocupa de procesarea request-ului de pe metoda GET a API-ului creat de mine. Serverul va utiliza obiectul sequelize pentru a cauta toate intrarile din tabela "favorite", dupa care le va returna sub forma de JSON.
+
 ![GET favorite endpoint](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Get%20favorite%20endpoint.JPG)
 
+Fig. 9
+
+Figura 10 prezinta procesul urmat de API in urma unui request de tip POST pe "/favorite". Acesta va cauta numarul de inregistrari din tabela care au titlul identic cu cel dat in request body. Daca numarul este <=0, se va insera o noua inregistrare; daca este >0, se va returna un raspuns cu codul 409(Conflict).
+
+![Post favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Post%20favorite.JPG)
+
+Fig. 10
+
+Figura 11 arata endpoint-ul care sterge toate inregistrarile din tabela care au titlul identic cu parametrul aflat in query al request-ului.
+
+![Delete favorite](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/delete%20favorite.JPG)
+
+Fig. 11
 
 ## Referinte
 https://developer.nytimes.com/docs/books-product/1/overview
