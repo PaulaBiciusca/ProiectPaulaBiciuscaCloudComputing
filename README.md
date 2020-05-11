@@ -122,6 +122,13 @@ Ultimul end point creat are calea "<adresa_api>/favorite/<titlu>" cu metoda DELE
 
 ## Capturi ecran aplicație
 
+### Front-end
+
+
+### Back-end
+Urmatoarea portiune va prezenta fragmentele de cod relevante back-end-ului
+Acesta este functia care se ocupa de procesarea request-ului de pe metoda GET a API-ului creat de mine. Serverul va
+![GET favorite endpoint](https://raw.githubusercontent.com/PaulaBiciusca/ProiectPaulaBiciuscaCloudComputing/master/assets/Get%20favorite%20endpoint.JPG)
 
 
 ## Referinte
