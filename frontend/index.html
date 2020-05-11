@@ -27,7 +27,7 @@
                 afiseazaCategorii();
             });
             function afiseazaCategorii(){
-                axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
+                axios.get('https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=R4dbcNHHjA3uXXE5KiNvAEgsWyEy0faL').then(function(results) {
                     //console.log(results.data.results);
                     let html = '';
             
@@ -47,8 +47,8 @@
             });
             
             function afiseazaCarti(categorie) {
-                axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=' + categorie + '&api-key=8kjfAJAK7y359zgKVVrpezZ6Djuzl88C').then(function(results) {
-                    //console.log(results.data.results);
+                axios.get('https://api.nytimes.com/svc/books/v3/lists.json?list=' + categorie + '&api-key=R4dbcNHHjA3uXXE5KiNvAEgsWyEy0faL').then(function(results) {
+                    console.log(results.data.results);
                     let html = ` <table>
                             <tr>
                                 <th>Titlu</th>

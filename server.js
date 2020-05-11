@@ -41,7 +41,8 @@ app.post('/favorite', (request, response) => {
         }
     }).then((result) => {
         if(result <= 0) {
-            Favorite.create(request.body).then((result) => {
+            Favorite.create(request.body)
+            .then((result) => {
                 response.status(201).json(result);
             }).catch(() => {
                 response.status(500).send();
