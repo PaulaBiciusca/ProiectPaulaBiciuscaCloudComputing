@@ -5,7 +5,7 @@ app.listen(8080);
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('Books_db', 'paula.biciusca', 'test123', {
+const sequelize = new Sequelize('Books_db', 'paulabiciusca', 'test123', {
     dialect: "mysql",
     host: "localhost"
 });
